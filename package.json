@@ -8,11 +8,12 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "prisma":{
+  "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.14.0",
+    "axios": "^1.4.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "next": "13.4.2",
