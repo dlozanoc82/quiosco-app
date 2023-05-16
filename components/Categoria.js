@@ -1,11 +1,14 @@
 import Image from "next/image";
+import useQuiosco from "@/hooks/useQuiosco";
 
 const Categoria = ({categoria}) => {
+
+    const {categoriaActual, handleClickCategoria} = useQuiosco();
 
     const {nombre, icono, id} = categoria;
 
     return (
-        <div className="flex items-center gap-4 w-full border p-5 hover:bg-amber-400 hover:cursor-pointer">
+        <div className={`flex ${categoriaActual?.id === id ? 'bg-amber-400' : ''} items-center gap-4 w-full border p-5 hover:bg-amber-400 hover:cursor-pointer`} onClick={() => handleClickCategoria(id) } >
             <Image 
                 width={70}
                 height={70}
