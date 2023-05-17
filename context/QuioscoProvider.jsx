@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import { useState, useEffect, createContext } from "react";
 const QuioscoContext = createContext();
-
+import {useRouter} from 'next/router';
 
 const QuioscoProvider = ({children}) => {
 
@@ -11,6 +11,8 @@ const QuioscoProvider = ({children}) => {
     const [producto, setProducto] = useState({});
     const [modal, setModal] = useState(false);
     const [pedido, setPedido] = useState([]);
+
+    const router = useRouter();
 
     const getCategorias = async () => {
         const {data} = await axios('/api/categorias');
@@ -26,8 +28,9 @@ const QuioscoProvider = ({children}) => {
     }, [categorias])
 
     const handleClickCategoria = id => {
-        const categoria = categorias.filter(cat => cat.id === id)
-        setCategoriaActual(categoria[0])
+        const categoria = categorias.filter(cat => cat.id === id);
+        setCategoriaActual(categoria[0]);
+        router.push('/');
     }
 
     const handleSetProducto = producto => {
@@ -38,7 +41,7 @@ const QuioscoProvider = ({children}) => {
         setModal(!modal);
     }
 
-    const handleAgregarPedido = ({categoriaId, imagen, ...producto}) => {
+    const handleAgregarPedido = ({categoriaId, ...producto}) => {
         if (pedido.some(productoState => productoState.id === producto.id)) {
             const pedidoActualizado = pedido.map(productoState =>productoState.id === producto.id ? producto : productoState);
             setPedido(pedidoActualizado);
@@ -49,6 +52,17 @@ const QuioscoProvider = ({children}) => {
         }
 
         setModal(false);
+    }
+
+    const handleEditarCantidades = id => {
+        const productoActualizar = pedido.filter(producto => producto.id === id);
+        setProducto(productoActualizar[0]);
+        setModal(!modal);
+    }
+
+    const handleEliminarProducto = id => {
+        const pedidoActualizado = pedido.filter(producto => producto.id !== id);
+        setPedido(pedidoActualizado);
     }
 
     return(
@@ -63,6 +77,8 @@ const QuioscoProvider = ({children}) => {
                 handleChangeModal,
                 handleAgregarPedido,
                 pedido,
+                handleEditarCantidades, 
+                handleEliminarProducto
             }}
         >
             {children}
