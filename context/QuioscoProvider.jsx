@@ -62,7 +62,7 @@ const QuioscoProvider = ({children}) => {
                 modal,
                 handleChangeModal,
                 handleAgregarPedido,
-                pedido
+                pedido,
             }}
         >
             {children}
